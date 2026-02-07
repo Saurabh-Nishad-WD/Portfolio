@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Linkedin } from 'lucide-react';
 
-const FRAME_COUNT = 9;
+const FRAME_COUNT = 41;
 const SKILLS = [
     "Builds Reliable Web Applications",
     "Writes Clean and Maintainable Code",
