@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Linkedin } from 'lucide-react';
 
-const FRAME_COUNT = 200;
+const FRAME_COUNT = 81;
 const SKILLS = [
     "Builds Reliable Web Applications",
     "Writes Clean and Maintainable Code",
@@ -27,10 +27,10 @@ const ScrollyTelling = () => {
     useEffect(() => {
         const loadImages = async () => {
             const loadedImages = [];
-            for (let i = 0; i < FRAME_COUNT; i++) {
+            for (let i = 1; i <= FRAME_COUNT; i++) {
                 const img = new Image();
-                const frameIndex = i.toString().padStart(5, '0');
-                img.src = `/frames/frame_${frameIndex}.jpg`;
+                const frameIndex = i.toString().padStart(3, '0');
+                img.src = `/frames/ffout${frameIndex}.gif`;
                 await new Promise((resolve) => {
                     img.onload = resolve;
                     // Continue even on error to prevent blocking, but logs would be good
