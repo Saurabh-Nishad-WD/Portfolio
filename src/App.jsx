@@ -31,6 +31,8 @@ function App() {
           <Projects />
           <ScrollyTelling />
         </Suspense>
+
+        <div id="contact" className="absolute bottom-0 w-full h-px pointer-events-none" />
       </main>
     </div>
   )

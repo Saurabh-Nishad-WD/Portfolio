@@ -226,9 +226,6 @@ const ScrollyTelling = () => {
 
                     </div>
                 </motion.div>
-
-                {/* Anchor for "Contact" button to scroll to end */}
-                <div id="contact" className="absolute bottom-0 w-full h-px pointer-events-none" />
             </div>
         </section>
     );

@@ -65,7 +65,7 @@ const Hero = () => {
                         </button>
 
                         <button
-                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'end' })}
                             className="px-10 py-3 border border-zinc-700 text-white font-semibold rounded-full hover:bg-white/10 transition"
                         >
                             Let’s Build Something
