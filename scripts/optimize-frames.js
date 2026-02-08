@@ -8,11 +8,12 @@ const __dirname = dirname(__filename);
 
 const SOURCE_DIR = join(__dirname, '../documents');
 const OUTPUT_DIR = join(__dirname, '../public/frames-optimized');
-const TARGET_WIDTH = 1280;
-const QUALITY = 60;
+const TARGET_WIDTH = 854; // 480p width
+const QUALITY = 40;       // Aggressive compression
+const BATCH_SIZE = 10;    // Process 10 images at a time
 
 async function optimizeFrames() {
-    console.log('🚀 Starting frame optimization...\n');
+    console.log('🚀 Starting frame optimization (Aggressive JPEG - Parallel)...\n');
 
     // Create output directory if it doesn't exist
     try {
@@ -35,21 +36,19 @@ async function optimizeFrames() {
         return;
     }
 
-    // Process each file
     let totalOriginalSize = 0;
     let totalOptimizedSize = 0;
+    let processedCount = 0;
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+    const processFile = async (file, index) => {
         const sourcePath = join(SOURCE_DIR, file);
-        const frameNumber = String(i + 1).padStart(3, '0');
+        const frameNumber = String(index + 1).padStart(3, '0');
         const outputPath = join(OUTPUT_DIR, `ffout${frameNumber}.jpg`);
 
         try {
             // Get original file size
             const stats = await stat(sourcePath);
             const originalSize = stats.size;
-            totalOriginalSize += originalSize;
 
             // Read and process the image
             const image = await Jimp.read(sourcePath);
@@ -65,13 +64,26 @@ async function optimizeFrames() {
             // Get optimized file size
             const optimizedStats = await stat(outputPath);
             const optimizedSize = optimizedStats.size;
-            totalOptimizedSize += optimizedSize;
 
             const reduction = ((1 - optimizedSize / originalSize) * 100).toFixed(1);
-            console.log(`✓ [${i + 1}/${files.length}] ${file} → ffout${frameNumber}.jpg (${reduction}% smaller)`);
+            console.log(`✓ [${index + 1}/${files.length}] ${file} → ffout${frameNumber}.jpg (${reduction}% smaller)`);
+
+            return { original: originalSize, optimized: optimizedSize };
         } catch (err) {
             console.error(`✗ Error processing ${file}:`, err.message);
+            return { original: 0, optimized: 0 };
         }
+    };
+
+    // Process in batches
+    for (let i = 0; i < files.length; i += BATCH_SIZE) {
+        const batch = files.slice(i, i + BATCH_SIZE);
+        const results = await Promise.all(batch.map((file, idx) => processFile(file, i + idx)));
+
+        results.forEach(res => {
+            totalOriginalSize += res.original;
+            totalOptimizedSize += res.optimized;
+        });
     }
 
     console.log('\n📊 Optimization Summary:');
