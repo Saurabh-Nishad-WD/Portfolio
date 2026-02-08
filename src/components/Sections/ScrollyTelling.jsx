@@ -108,7 +108,7 @@ const ScrollyTelling = () => {
             const currentProgress = scrollYProgress.get();
             const frameIndex = Math.min(
                 FRAME_COUNT - 1,
-                Math.floor(currentProgress * (FRAME_COUNT - 1))
+                Math.floor(currentProgress * FRAME_COUNT)
             );
             drawImage(images[frameIndex]);
         };
@@ -136,7 +136,7 @@ const ScrollyTelling = () => {
         const unsubscribe = scrollYProgress.on("change", (latest) => {
             const frameIndex = Math.min(
                 FRAME_COUNT - 1,
-                Math.floor(latest * (FRAME_COUNT - 1))
+                Math.floor(latest * FRAME_COUNT)
             );
             drawImage(images[frameIndex]);
         });
