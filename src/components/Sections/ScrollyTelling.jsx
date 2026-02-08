@@ -162,7 +162,7 @@ const ScrollyTelling = () => {
     const overlay2X = useTransform(scrollYProgress, [0.7, 0.8], [50, 0]);
 
     return (
-        <section ref={containerRef} className="h-[700vh] relative z-20 bg-black">
+        <section ref={containerRef} className="h-[400vh] md:h-[700vh] relative z-20 bg-black">
             <div className="sticky top-0 h-screen w-full overflow-hidden">
 
                 {/* Canvas Background */}
@@ -231,6 +231,8 @@ const ScrollyTelling = () => {
                     </div>
                 </motion.div>
 
+                {/* Anchor for "Contact" button to scroll to end */}
+                <div id="contact" className="absolute bottom-0 w-full h-px pointer-events-none" />
             </div>
         </section>
     );

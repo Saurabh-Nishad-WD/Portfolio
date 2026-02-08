@@ -92,7 +92,7 @@ const Projects = () => {
     });
 
     return (
-        <section ref={containerRef} className="relative py-24 px-6 min-h-[300vh]">
+        <section id="projects" ref={containerRef} className="relative py-24 px-6 min-h-[300vh]">
             <div className="sticky top-10 mb-24 z-10 text-center">
                 <motion.span
                     initial={{ opacity: 0 }}

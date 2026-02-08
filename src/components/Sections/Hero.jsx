@@ -57,11 +57,17 @@ const Hero = () => {
                         transition={{ duration: 1, delay: 1.3 }}
                         className="mt-14 flex gap-6 justify-center flex-wrap"
                     >
-                        <button className="px-10 py-3 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 transition">
+                        <button
+                            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-10 py-3 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 transition"
+                        >
                             Explore Engineering Work
                         </button>
 
-                        <button className="px-10 py-3 border border-zinc-700 text-white font-semibold rounded-full hover:bg-white/10 transition">
+                        <button
+                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-10 py-3 border border-zinc-700 text-white font-semibold rounded-full hover:bg-white/10 transition"
+                        >
                             Let’s Build Something
                         </button>
                     </motion.div>
