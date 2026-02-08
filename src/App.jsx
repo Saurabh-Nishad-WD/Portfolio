@@ -1,12 +1,20 @@
+import { Suspense, lazy } from 'react';
 import ParallaxBackground from './components/Layout/ParallaxBackground';
 import Hero from './components/Sections/Hero';
-import About from './components/Sections/About';
-import Skills from './components/Sections/Skills';
-import Experience from './components/Sections/Experience';
-import Projects from './components/Sections/Projects';
-import Education from './components/Sections/Education';
-import Contact from './components/Sections/Contact';
-import ScrollyTelling from './components/Sections/ScrollyTelling';
+
+// Lazy load heavy/below-the-fold components
+const About = lazy(() => import('./components/Sections/About'));
+const Skills = lazy(() => import('./components/Sections/Skills'));
+const Experience = lazy(() => import('./components/Sections/Experience'));
+const Projects = lazy(() => import('./components/Sections/Projects'));
+const ScrollyTelling = lazy(() => import('./components/Sections/ScrollyTelling'));
+
+// Simple loading spinner
+const LoadingSpinner = () => (
+  <div className="w-full h-[50vh] flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+  </div>
+);
 
 function App() {
   return (
@@ -15,13 +23,14 @@ function App() {
 
       <main className="relative z-10 w-full">
         <Hero />
-        {/* <Education /> */}
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        {/* <Contact /> */}
-        <ScrollyTelling />
+
+        <Suspense fallback={<LoadingSpinner />}>
+          <About />
+          <Skills />
+          <Experience />
+          <Projects />
+          <ScrollyTelling />
+        </Suspense>
       </main>
     </div>
   )

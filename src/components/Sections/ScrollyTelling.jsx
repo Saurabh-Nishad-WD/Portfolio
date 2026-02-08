@@ -26,19 +26,67 @@ const ScrollyTelling = () => {
     // Load images on mount
     useEffect(() => {
         const loadImages = async () => {
-            const loadedImages = [];
-            for (let i = 1; i <= FRAME_COUNT; i++) {
-                const img = new Image();
-                const frameIndex = i.toString().padStart(3, '0');
-                img.src = `/frames/ffout${frameIndex}.gif`;
-                await new Promise((resolve) => {
-                    img.onload = resolve;
-                    // Continue even on error to prevent blocking, but logs would be good
-                    img.onerror = resolve;
+            // Mobile Optimization: Skip frames
+            const isMobile = window.innerWidth < 768;
+            const step = isMobile ? 2 : 1;
+
+            const promises = [];
+            for (let i = 1; i <= FRAME_COUNT; i += step) {
+                const p = new Promise((resolve) => {
+                    const img = new Image();
+                    const frameIndex = i.toString().padStart(3, '0');
+                    // Use optimized images
+                    img.src = `/frames-optimized/ffout${frameIndex}.jpg`;
+
+                    img.onload = () => resolve({ index: i - 1, img }); // store index to keep order
+                    img.onerror = () => {
+                        console.error(`Failed to load frame ${i}`);
+                        resolve(null);
+                    };
                 });
-                loadedImages.push(img);
+                promises.push(p);
             }
-            setImages(loadedImages);
+
+            const results = await Promise.all(promises);
+
+            // Reconstruct array handling skipped frames
+            // We want a full array of FRAME_COUNT length. 
+            // If skipped, we can just reuse the previous frame or leave it empty? 
+            // Better approach: filter out nulls and sort by index
+            const loadedMap = {};
+            results.forEach(res => {
+                if (res) loadedMap[res.index] = res.img;
+            });
+
+            // Fill holes for mobile (simple hold-previous-frame interpolation or just strict mapping)
+            // For simplicity in rendering loop, let's just keep the loaded ones and logic in render can handle holes or we fill them.
+            // Simplest: Create a dense array where missing frames point to the previous existing frame.
+
+            const processedImages = new Array(FRAME_COUNT).fill(null);
+            let lastValidImage = null;
+
+            for (let i = 0; i < FRAME_COUNT; i++) {
+                if (loadedMap[i]) {
+                    processedImages[i] = loadedMap[i];
+                    lastValidImage = loadedMap[i];
+                } else if (lastValidImage) {
+                    // Fill with previous to prevent flashing empty
+                    processedImages[i] = lastValidImage;
+                }
+            }
+
+            // If the first frame is missing (unlikely but possible), fill forward from first found
+            if (!processedImages[0] && processedImages.length > 0) {
+                const firstFound = processedImages.find(img => img !== null);
+                if (firstFound) {
+                    for (let i = 0; i < FRAME_COUNT; i++) {
+                        if (!processedImages[i]) processedImages[i] = firstFound;
+                        else break;
+                    }
+                }
+            }
+
+            setImages(processedImages);
             setImagesLoaded(true);
         };
         loadImages();
