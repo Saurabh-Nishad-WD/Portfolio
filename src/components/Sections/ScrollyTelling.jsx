@@ -190,27 +190,23 @@ const ScrollyTelling = () => {
                 {/* Overlay 2: Merged Contact Section (Right Side) */}
                 <motion.div
                     style={{ opacity: overlay2Opacity, x: overlay2X }}
-                    className="absolute inset-0 flex flex-col justify-center items-end px-6 md:px-20 pointer-events-none"
+                    className="absolute inset-0 flex flex-col justify-end md:justify-center items-end px-6 pb-12 md:pb-0 md:px-20 pointer-events-none"
                 >
                     <div className="text-right pointer-events-auto">
-                        <span className="block text-white text-xl font-['Dancing_Script'] font-bold tracking-widest uppercase mb-6 underline underline-offset-8 decoration-white/30">
-                            Get In Touch
-                        </span>
-
-                        <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tight leading-tight">
+                        <h2 className="text-5xl md:text-7xl font-black text-white mb-4 md:mb-8 tracking-tight leading-tight">
                             Let's work <br /> together.
                         </h2>
 
                         <a
                             href="tel:+917651837446"
-                            className="block text-xl md:text-2xl text-white hover:text-zinc-300 transition-colors mb-2"
+                            className="block text-xl md:text-2xl text-white hover:text-zinc-300 transition-colors mb-1 md:mb-2"
                         >
                             +91 76518 37446
                         </a>
 
                         <a
                             href="mailto:bharatnishad.840@gmail.com"
-                            className="inline-block text-xl md:text-2xl text-white hover:text-zinc-300 transition-colors border-b border-zinc-500 hover:border-white pb-1 mb-12"
+                            className="inline-block text-xl md:text-2xl text-white hover:text-zinc-300 transition-colors border-b border-zinc-500 hover:border-white pb-1 mb-6 md:mb-12"
                         >
                             bharatnishad.840@gmail.com
                         </a>
