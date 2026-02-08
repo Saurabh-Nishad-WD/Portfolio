@@ -5,12 +5,12 @@ const Hero = () => {
         offset: ["start start", "end start"],
     });
 
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.85]);
-    const y = useTransform(scrollYProgress, [0, 0.5], [0, 80]);
+    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+    const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+    const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
     return (
-        <section className="h-[200vh] relative">
+        <section className="h-[140vh] relative">
             <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
 
                 {/* Main Content */}
