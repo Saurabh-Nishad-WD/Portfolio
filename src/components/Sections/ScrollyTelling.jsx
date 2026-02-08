@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Linkedin } from 'lucide-react';
 
-const FRAME_COUNT = 41;
+const FRAME_COUNT = 160;
 const SKILLS = [
     "Builds Reliable Web Applications",
     "Writes Clean and Maintainable Code",
@@ -28,7 +28,7 @@ const ScrollyTelling = () => {
         const loadImages = async () => {
             // Mobile Optimization: Skip frames
             const isMobile = window.innerWidth < 768;
-            const step = isMobile ? 2 : 1;
+            const step = isMobile ? 3 : 1; // Increase step for mobile due to more frames
 
             const promises = [];
             for (let i = 1; i <= FRAME_COUNT; i += step) {
